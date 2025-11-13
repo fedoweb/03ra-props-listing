@@ -2,32 +2,26 @@ import { useState } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
+import data from './data/etsy.json';
+import { Listing } from './components/Listing';
+import { type ListingItemProps } from './components/ListingItem';
 
 function App() {
-  const [count, setCount] = useState(0)
+  const inputData: ListingItemProps[] = data
+    .filter(item => item.state === 'active')
+    .map(item => ({
+      listing_id: item.listing_id,
+      url: item.url,
+      MainImage: item.MainImage,
+      title: item.title,
+      currency_code: item.currency_code,
+      price: item.price,
+      quantity: item.quantity
+    }));
 
   return (
     <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <Listing items={inputData} />
     </>
   )
 }
